@@ -1,3 +1,19 @@
+채팅 앱을 만들어 볼까 합니다.
+취준때 만들던 Soribada 프로젝트는... 일단 유기를 할까 합니다.
+취업하고 나서 회사 일과 회사 공부가 먼저였다가 지금은 조금 적응했으니
+회사에서 쓸 채팅앱을 한번 만들어보고자 해서 만든 프로젝트입니다.
+
+어차피 내가 하고 싶은거 만드려고 했던거니깐 상관 없겠죠!
+
+해당 프로젝트는 KMP를 사용해 AOS, Windows에서 동작하는 채팅앱이 될껍니다.
+ios는 폰, 맥북, ios 개발자 계정 등 돈이 많이 들어서 안 할 생각입니다.
+
+화면은 간단하게
+사용자 목록 화면(친구 목록), 채팅방 목록, 채팅방 화면
+이렇게 만들어볼 생각입니다.
+
+---
+
 This is a Kotlin Multiplatform project targeting Android, Desktop.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
