@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.lee.talk_to_we_client.views.loginView
 
 import ttwclient.composeapp.generated.resources.Res
 import ttwclient.composeapp.generated.resources.compose_multiplatform
@@ -21,6 +22,8 @@ import ttwclient.composeapp.generated.resources.compose_multiplatform
 @Preview
 fun App() {
     MaterialTheme {
+        BaseView()
+        /*
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { showContent = !showContent }) {
@@ -34,10 +37,11 @@ fun App() {
                 }
             }
         }
+         */
     }
 }
 
 @Composable
 fun BaseView(){
-
+    loginView()
 }
