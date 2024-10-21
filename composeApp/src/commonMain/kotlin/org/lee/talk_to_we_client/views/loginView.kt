@@ -97,14 +97,16 @@ fun loginView() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester),
-                    value = userPassword,
+                    value = String(userPassword),
                     onValueChange = { newValue ->
                         userPassword = newValue.toCharArray()
                                     },
                     singleLine = true,
                     placeholder = { Text("암호") },
                     keyboardActions = KeyboardActions(
-                        onDone = { viewModel.login() }
+                        onDone = {
+                            viewModel.login(userId, userPassword)
+                        }
                     ),
                     visualTransformation =
                     if(showPassword) {
@@ -136,7 +138,9 @@ fun loginView() {
         }
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                viewModel.login(userId, userPassword)
+                      },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp)
