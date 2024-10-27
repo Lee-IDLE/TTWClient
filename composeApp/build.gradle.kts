@@ -7,13 +7,15 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_22)
         }
     }
     
@@ -35,6 +37,13 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+            implementation(libs.io.ktor.ktor.client.content.negotiation)
+            implementation(libs.io.ktor.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.ktor.client.cio)
             //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
@@ -66,14 +75,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
 }
 
 dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(compose.materialIconsExtended)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    //implementation(libs.ktor.client.serialization)
+    //implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.ktor.client.logging)
+    implementation(libs.ktor.client.auth)
+
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.ktor.ktor.serialization.kotlinx.json)
     //implementation(libs.androidx.material.icons.extended)
     //implementation(libs.androidx.material.icons.extended.v143)
     debugImplementation(compose.uiTooling)
@@ -89,4 +109,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+tasks.withType<JavaCompile>{
+    options.encoding = "UTF-8"
 }
