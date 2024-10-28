@@ -5,14 +5,19 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.timeout
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.request
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.content.Version
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginData
 import org.lee.talk_to_we_client.models.RequestData
@@ -20,27 +25,8 @@ import java.net.ProtocolFamily
 
 class communicationManager {
     suspend fun LoginTest(UserId: String, UserPassword: String) {
-        val client = HttpClient(CIO) {
-            engine {
-                pipelining = false
-            }
-            install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                })
-            }
-            install(HttpTimeout) {
-                requestTimeoutMillis = 4_000
-                connectTimeoutMillis = 4_000
-                socketTimeoutMillis = 4_000
-            }
-            expectSuccess = true
-            /*
-            install(Logging){
-
-            }
-             */
+        val client = HttpClient(CIO).config {
+            install(WebSockets)
         }
 
         println("login data start")
@@ -56,22 +42,19 @@ class communicationManager {
             )
             // 참고 https://java-jedi.medium.com/welcome-ktor-client-your-next-http-client-for-kotlin-based-project-part-ii-236462d4c836
             println("try connection")
-            val response = client.post("http://127.0.0.1:8080/requireLogin") {
-                timeout{
-                    requestTimeoutMillis = 4_000
-                    connectTimeoutMillis = 4_000
-                    socketTimeoutMillis = 4_000
-                }
-                contentType(ContentType.Application.Json)
-                setBody(jsonData)//jsonData
-                //version(HttpProtocolVersion.HTTP_2_0)
-            }
+            val response = client.webSocket(
+                method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = "/login"
+            ) {
+                println("connection success")
 
-            println("connection success")
-            if(response.status.isSuccess()){
-                println("sendLoginData Success!!")
-            } else {
-                println("Fuck SendLoginData Error!!:${response.status.value}")
+                send(Frame.Text("Send Message!"))
+
+                for (frame in incoming){
+                    when (frame) {
+                        is Frame.Text -> { println("Receive to Server: ${frame.readText()}")}
+                        else -> { println("EXT...") }
+                    }
+                }
             }
         }catch (e: Exception){
             println("Fuck! sendLoginData Error!!:${e.message}")

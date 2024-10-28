@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.io.ktor.ktor.client.content.negotiation)
             implementation(libs.io.ktor.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.ktor.client.cio)
+            implementation(libs.ktor.client.websockets)
             //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
