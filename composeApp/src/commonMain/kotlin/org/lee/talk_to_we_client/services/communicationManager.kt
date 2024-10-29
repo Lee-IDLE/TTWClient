@@ -18,6 +18,7 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginData
 import org.lee.talk_to_we_client.models.RequestData
@@ -47,9 +48,11 @@ class communicationManager {
             ) {
                 println("connection success")
 
-                send(Frame.Text("Send Message!"))
+                send(Frame.Text(jsonData))
 
-                for (frame in incoming){
+                println("data send success")
+
+                incoming.consumeEach { frame ->
                     when (frame) {
                         is Frame.Text -> { println("Receive to Server: ${frame.readText()}")}
                         else -> { println("EXT...") }
@@ -59,7 +62,7 @@ class communicationManager {
         }catch (e: Exception){
             println("Fuck! sendLoginData Error!!:${e.message}")
         }finally {
-            client.close()
+            //client.close()
         }
     }
 }
