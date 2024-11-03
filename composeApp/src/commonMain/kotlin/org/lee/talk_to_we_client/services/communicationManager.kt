@@ -2,27 +2,15 @@ package org.lee.talk_to_we_client.services
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.timeout
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.request
-import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.content.Version
-import io.ktor.http.contentType
-import io.ktor.http.isSuccess
-import io.ktor.serialization.kotlinx.json.json
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginData
 import org.lee.talk_to_we_client.models.RequestData
-import java.net.ProtocolFamily
 
 class communicationManager {
     suspend fun LoginTest(UserId: String, UserPassword: String) {
