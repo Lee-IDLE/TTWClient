@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -62,114 +64,118 @@ fun loginView() {
     tab키 기능 구현
     https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/Tab_Navigation/README.md
      */
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.padding(10.dp).fillMaxSize()
-    ){
-        Column(modifier = Modifier) {
+    if(viewModel.isLoading.value){
+        loadingScreen()
+    } else {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(10.dp).fillMaxSize()
+        ){
+            Column(modifier = Modifier) {
+                Row(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // https://kotlinworld.com/238 포커싱 방법 참고
+
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester),
+                        value = userId,
+                        onValueChange = { userId = it },
+                        singleLine = true,
+                        placeholder = { Text("계정") },
+                    )
+                }
+                Row(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    /*
+                    참고
+                    https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
+                    https://alitalhacoban.medium.com/show-hide-password-jetpack-compose-d0c4abac568f
+                     */
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(focusRequester),
+                        value = String(userPassword),
+                        onValueChange = { newValue ->
+                            userPassword = newValue.toCharArray()
+                        },
+                        singleLine = true,
+                        placeholder = { Text("암호") },
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                viewModel.login(userId, userPassword)
+                            }
+                        ),
+                        visualTransformation =
+                        if(showPassword) {
+                            VisualTransformation.None
+                        }else {
+                            PasswordVisualTransformation()
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        trailingIcon = {
+                            if (showPassword) {
+                                IconButton(onClick = { showPassword = false }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Favorite,
+                                        contentDescription = "hide_password"
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = { showPassword = true }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Done,
+                                        contentDescription = "hide_password"
+                                    )
+
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            Button(
+                onClick = {
+                    viewModel.login(userId, userPassword)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp)
+            ) {
+                Text("로그인", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 26.sp)
+            }
+
             Row(
-                modifier = Modifier.padding(bottom = 10.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // https://kotlinworld.com/238 포커싱 방법 참고
+                TextButton(
+                    onClick = {},
+                    modifier = Modifier.padding(8.dp),
+                ){
+                    Text("회원가입", color = Color.Blue)
+                }
 
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    value = userId,
-                    onValueChange = { userId = it },
-                    singleLine = true,
-                    placeholder = { Text("계정") },
-                )
-            }
-            Row(
-                modifier = Modifier.padding(bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                /*
-                참고
-                https://stackoverflow.com/questions/65304229/toggle-password-field-jetpack-compose
-                https://alitalhacoban.medium.com/show-hide-password-jetpack-compose-d0c4abac568f
-                 */
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    value = String(userPassword),
-                    onValueChange = { newValue ->
-                        userPassword = newValue.toCharArray()
-                                    },
-                    singleLine = true,
-                    placeholder = { Text("암호") },
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            viewModel.login(userId, userPassword)
-                        }
-                    ),
-                    visualTransformation =
-                    if(showPassword) {
-                        VisualTransformation.None
-                    }else {
-                        PasswordVisualTransformation()
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    trailingIcon = {
-                        if (showPassword) {
-                            IconButton(onClick = { showPassword = false }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = "hide_password"
-                                )
-                            }
-                        } else {
-                            IconButton(onClick = { showPassword = true }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Done,
-                                    contentDescription = "hide_password"
-                                )
+                Spacer(modifier = Modifier.width(10.dp))
 
-                            }
-                        }
-                    }
-                )
-            }
-        }
+                Box(modifier = Modifier.width(1.dp).height(20.dp).background(Color.Blue))
 
-        Button(
-            onClick = {
-                viewModel.login(userId, userPassword)
-                      },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 10.dp)
-        ) {
-            Text("로그인", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 26.sp)
-        }
+                Spacer(modifier = Modifier.width(10.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextButton(
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            ){
-                Text("회원가입", color = Color.Blue)
-            }
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Box(modifier = Modifier.width(1.dp).height(20.dp).background(Color.Blue))
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            TextButton(
-                onClick = {},
-                modifier = Modifier.padding(8.dp),
-            ){
-                Text("아이디, 비밀번호 찾기", color = Color.Blue)
+                TextButton(
+                    onClick = {},
+                    modifier = Modifier.padding(8.dp),
+                ){
+                    Text("아이디, 비밀번호 찾기", color = Color.Blue)
+                }
             }
         }
     }
@@ -224,6 +230,16 @@ fun FocusableBox(
         placeholder = { Text(text) },
         singleLine = true
     )
+}
+
+@Composable
+fun loadingScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
 }
 
 @Composable
