@@ -13,8 +13,8 @@ class loginViewModel : ViewModel() {
     var isLoading = mutableStateOf(false)
 
     fun login(userID: String, userPassword: CharArray) = runBlocking{
+        println("login process start ${userPassword}")
         viewModelScope.async {
-            println("login process start ${userPassword.toString()}")
             val sendPassword = userPassword.toString().trim().sha256()
             communicationManager().loginProcess(userID, sendPassword)
         }

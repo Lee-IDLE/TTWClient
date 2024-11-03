@@ -15,7 +15,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_22)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.io.ktor.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.ktor.client.cio)
             implementation(libs.ktor.client.websockets)
+            implementation(libs.slf4j.simple)
             //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
@@ -76,8 +77,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
