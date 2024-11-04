@@ -27,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,9 +47,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.lee.talk_to_we_client.viewModels.loginViewModel
-
 
 @Composable
 fun loginView() {
@@ -60,13 +65,17 @@ fun loginView() {
 
     val focusRequester = remember { FocusRequester() }
 
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+
     /*
     tab키 기능 구현
     https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/Tab_Navigation/README.md
      */
-    if(viewModel.isLoading.value){
+    if(isLoading){
+        println("Loading...........")
         loadingScreen()
     } else {
+        println("Loading End...........")
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -110,7 +119,7 @@ fun loginView() {
                         placeholder = { Text("암호") },
                         keyboardActions = KeyboardActions(
                             onDone = {
-                                viewModel.login(userId, userPassword)
+                                viewModel.login(userId, String(userPassword).trim())
                             }
                         ),
                         visualTransformation =
@@ -134,7 +143,6 @@ fun loginView() {
                                         imageVector = Icons.Filled.Done,
                                         contentDescription = "hide_password"
                                     )
-
                                 }
                             }
                         }
@@ -144,7 +152,7 @@ fun loginView() {
 
             Button(
                 onClick = {
-                    viewModel.login(userId, userPassword)
+                    viewModel.login(userId, String(userPassword))
                 },
                 modifier = Modifier
                     .fillMaxWidth()

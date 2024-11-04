@@ -15,7 +15,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_22)
         }
     }
     
@@ -77,8 +77,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
 }
 
@@ -95,9 +95,11 @@ dependencies {
     implementation(libs.ktor.client.auth)
 
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.material3)
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
-    //implementation(libs.androidx.material.icons.extended)
-    //implementation(libs.androidx.material.icons.extended.v143)
+
+
     debugImplementation(compose.uiTooling)
 }
 
@@ -116,3 +118,9 @@ compose.desktop {
 tasks.withType<JavaCompile>{
     options.encoding = "UTF-8"
 }
+
+/*
+- AGP 관련 오류 나는 경우
+libs.versions.toml에 가서 agp의 버전을 내 Android Studio에 맞춰준다.
+File -> Project Structure -> Gradle 버전 맞추기
+ */
