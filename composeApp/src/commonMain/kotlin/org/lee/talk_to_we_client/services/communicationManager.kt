@@ -40,7 +40,6 @@ class communicationManager {
 
         val loginDataList = mutableListOf(LoginData(UserId, UserPassword))
         sendLoginData(client, RequestData<LoginData>("login", loginDataList))
-        client.close()
         viewModels = null
     }
 
@@ -53,14 +52,10 @@ class communicationManager {
         try{
             // 참고 https://java-jedi.medium.com/welcome-ktor-client-your-next-http-client-for-kotlin-based-project-part-ii-236462d4c836
             println("try connection")
-
-            delay(3000)
-
             client.webSocket(
                 method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = "/login"
             ) {
                 println("connection success")
-
                 send(Frame.Text(jsonData))
                 println("data send success")
 
@@ -76,6 +71,7 @@ class communicationManager {
             }
         }catch (e: Exception){
             println("Fuck! sendLoginData Error!!:${e.message}")
+            viewmodel.isLoading.value = false
         }finally {
             //client.close()
         }

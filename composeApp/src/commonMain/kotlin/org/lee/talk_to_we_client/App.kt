@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.lee.talk_to_we_client.views.loginScreen
 import org.lee.talk_to_we_client.views.loginView
 
 import ttwclient.composeapp.generated.resources.Res
@@ -43,5 +44,5 @@ fun App() {
 
 @Composable
 fun BaseView(){
-    loginView()
+    loginScreen()
 }

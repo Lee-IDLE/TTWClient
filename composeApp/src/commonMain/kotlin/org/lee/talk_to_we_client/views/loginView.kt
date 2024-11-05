@@ -57,9 +57,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.lee.talk_to_we_client.viewModels.loginViewModel
 
 @Composable
-fun loginView() {
+fun loginScreen() {
     val viewModel = loginViewModel()
-
+    loginView(viewModel)
+}
+@Composable
+fun loginView(viewModel: loginViewModel) {
     var userId by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf<CharArray>(CharArray(0)) }
     var showPassword by remember { mutableStateOf(false) }
@@ -254,5 +257,5 @@ fun loadingScreen() {
 @Composable
 @Preview
 fun testPreview(){
-    loginView()
+    loginScreen()
 }
