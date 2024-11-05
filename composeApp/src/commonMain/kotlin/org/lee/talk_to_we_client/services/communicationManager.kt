@@ -3,31 +3,16 @@ package org.lee.talk_to_we_client.services
 import androidx.lifecycle.ViewModel
 import io.ktor.client.*
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.timeout
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.client.statement.request
-import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.content.Version
-import io.ktor.http.contentType
-import io.ktor.http.isSuccess
-import io.ktor.serialization.kotlinx.json.json
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginData
 import org.lee.talk_to_we_client.models.RequestData
 import org.lee.talk_to_we_client.viewModels.loginViewModel
-import java.net.ProtocolFamily
 
 class communicationManager {
     var viewModels: ViewModel? = null
@@ -53,7 +38,7 @@ class communicationManager {
             // 참고 https://java-jedi.medium.com/welcome-ktor-client-your-next-http-client-for-kotlin-based-project-part-ii-236462d4c836
             println("try connection")
             client.webSocket(
-                method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = "/login"
+                method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = ""
             ) {
                 println("connection success")
                 send(Frame.Text(jsonData))
