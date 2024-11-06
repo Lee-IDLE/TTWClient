@@ -27,6 +27,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation("com.squareup.sqldelight:android-driver:1.5.5")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -39,6 +40,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.coroutines.core)
 
+            // 통신
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
             implementation(libs.io.ktor.ktor.client.content.negotiation)
@@ -46,11 +48,16 @@ kotlin {
             implementation(libs.ktor.ktor.client.cio)
             implementation(libs.ktor.client.websockets)
             implementation(libs.slf4j.simple)
+
+            // SQLite
+            implementation("com.squareup.sqldelight:runtime:1.5.5")
+
             //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
         }
     }
 }
@@ -118,7 +125,6 @@ compose.desktop {
 tasks.withType<JavaCompile>{
     options.encoding = "UTF-8"
 }
-
 /*
 - AGP 관련 오류 나는 경우
 libs.versions.toml에 가서 agp의 버전을 내 Android Studio에 맞춰준다.

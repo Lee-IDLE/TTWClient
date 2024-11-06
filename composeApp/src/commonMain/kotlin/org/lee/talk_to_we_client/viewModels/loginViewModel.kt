@@ -13,9 +13,7 @@ class loginViewModel : ViewModel() {
     fun login(userID: String, userPassword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val sendPassword = userPassword.trim().sha256()
-            isLoading.value = true
             communicationManager().loginProcess(this@loginViewModel, userID, sendPassword)
-            isLoading.value = false
         }
     }
 

@@ -3,7 +3,6 @@ package org.lee.talk_to_we_client.objectClass
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.websocket.WebSockets
-import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.http.HttpMethod
 import io.ktor.websocket.Frame
@@ -33,15 +32,15 @@ object webSocket {
                     install(WebSockets)
                 }
 
+                // Windows 127.0.0.1:8080
+                // 에뮬레이터 10.0.2.2:8080
+
                 webSocketSession = client.webSocketSession(
                     method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = ""
                 )
-
-                receive()
             }catch (e: Error) {
                 println("webSocket connection fail: ${e.message}")
             }
-
         }
     }
 

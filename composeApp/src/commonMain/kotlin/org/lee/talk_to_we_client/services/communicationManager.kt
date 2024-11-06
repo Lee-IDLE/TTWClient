@@ -12,6 +12,7 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginData
 import org.lee.talk_to_we_client.models.RequestData
+import org.lee.talk_to_we_client.objectClass.webSocket
 import org.lee.talk_to_we_client.viewModels.loginViewModel
 
 class communicationManager {
@@ -19,46 +20,23 @@ class communicationManager {
     suspend fun loginProcess(viewModel: loginViewModel, UserId: String, UserPassword: String) {
         viewModels = viewModel
 
-        val client = HttpClient(CIO).config {
-            install(WebSockets)
-        }
-
         val loginDataList = mutableListOf(LoginData(UserId, UserPassword))
-        sendLoginData(client, RequestData<LoginData>("login", loginDataList))
+        sendLoginData(RequestData<LoginData>("login", loginDataList))
         viewModels = null
     }
 
-    suspend fun sendLoginData(client: HttpClient,loginData: RequestData<LoginData>){
+    suspend fun sendLoginData(loginData: RequestData<LoginData>){
         val jsonData = Json.encodeToString(
             RequestData.serializer(LoginData.serializer()), loginData
         )
         val viewmodel = viewModels as loginViewModel
 
-        try{
-            // 참고 https://java-jedi.medium.com/welcome-ktor-client-your-next-http-client-for-kotlin-based-project-part-ii-236462d4c836
-            println("try connection")
-            client.webSocket(
-                method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = ""
-            ) {
-                println("connection success")
-                send(Frame.Text(jsonData))
-                println("data send success")
-
-                incoming.consumeEach { frame ->
-                    when (frame) {
-                        is Frame.Text -> {
-                            println("Receive to Server: ${frame.readText()}")
-                        }
-                        else -> { println("EXT...") }
-                    }
-                    viewmodel.isLoading.value = false
-                }
-            }
-        }catch (e: Exception){
-            println("Fuck! sendLoginData Error!!:${e.message}")
-            viewmodel.isLoading.value = false
-        }finally {
-            //client.close()
-        }
+        viewmodel.isLoading.value = true
+        // 참고 https://java-jedi.medium.com/welcome-ktor-client-your-next-http-client-for-kotlin-based-project-part-ii-236462d4c836
+        println("try connection")
+        webSocket.connect()
+        webSocket.send(jsonData)
+        webSocket.receive()
+        viewmodel.isLoading.value = false
     }
 }

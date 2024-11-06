@@ -12,6 +12,10 @@ ios는 폰, 맥북, ios 개발자 계정 등 돈이 많이 들어서 안 할 생
 사용자 목록 화면(친구 목록), 채팅방 목록, 채팅방 화면
 이렇게 만들어볼 생각입니다.
 
+**DB 관련**
+WebSocketSession으로 부터 들어오는 모든 메시지들을 DB의 특정 테이블에 저장하고,
+코루틴으로 필요한 곳에서 마다 테이블에서 메시지 꺼내와서 사용하도록 할 예정
+
 ---
 
 This is a Kotlin Multiplatform project targeting Android, Desktop.
