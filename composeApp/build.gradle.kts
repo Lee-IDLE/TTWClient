@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
 
     kotlin("plugin.serialization") version "2.0.21"
+    id("com.squareup.sqldelight") version "1.5.5"
 }
 
 kotlin {
@@ -106,6 +107,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
 
+    implementation("com.squareup.sqldelight:runtime:1.5.5") // 최신 버전 사용
+    implementation("com.squareup.sqldelight:android-driver:1.5.5") // Android용
+    implementation("com.squareup.sqldelight:sqlite-driver:1.5.5") // Desktop용
 
     debugImplementation(compose.uiTooling)
 }
@@ -124,6 +128,13 @@ compose.desktop {
 
 tasks.withType<JavaCompile>{
     options.encoding = "UTF-8"
+}
+
+sqldelight {
+    database("TTWClientDB"){
+        packageName = "org.lee.talk_to_we_client"
+        sourceFolders = listOf("sqldelight")
+    }
 }
 /*
 - AGP 관련 오류 나는 경우
