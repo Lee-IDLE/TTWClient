@@ -9,7 +9,9 @@ plugins {
     alias(libs.plugins.compose.compiler)
 
     kotlin("plugin.serialization") version "2.0.21"
-    id("com.squareup.sqldelight") version "1.5.5"
+    alias(libs.plugins.sqlDelight)
+
+    //alias(libs.plugins.kotlin.android) // 이거 문제되고 있음. 왜지???
 }
 
 kotlin {
@@ -28,7 +30,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation("com.squareup.sqldelight:android-driver:1.5.5")
+            implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -50,15 +52,22 @@ kotlin {
             implementation(libs.ktor.client.websockets)
             implementation(libs.slf4j.simple)
 
-            // SQLite
-            implementation("com.squareup.sqldelight:runtime:1.5.5")
+            // sqlDelight
+            implementation(libs.sqldelight.coroutines)
 
             //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
+            implementation(libs.sqldelight.jvm)
+        }
+    }
+    sqldelight {
+        databases {
+            create("TTWClientDB") {
+                packageName = "org.lee.talk_to_we_client"
+            }
         }
     }
 }
@@ -88,6 +97,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_22
         targetCompatibility = JavaVersion.VERSION_22
     }
+/*
+    kotlinOptions {
+        jvmTarget = "22"
+    }
+ */
 }
 
 dependencies {
@@ -95,8 +109,7 @@ dependencies {
     implementation(compose.materialIconsExtended)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
-    //implementation(libs.ktor.client.serialization)
-    //implementation(libs.ktor.client.logging)
+
     implementation(libs.ktor.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.ktor.client.logging)
@@ -106,10 +119,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.material3)
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
-
-    implementation("com.squareup.sqldelight:runtime:1.5.5") // 최신 버전 사용
-    implementation("com.squareup.sqldelight:android-driver:1.5.5") // Android용
-    implementation("com.squareup.sqldelight:sqlite-driver:1.5.5") // Desktop용
+    implementation(libs.core.ktx)
 
     debugImplementation(compose.uiTooling)
 }
@@ -130,12 +140,6 @@ tasks.withType<JavaCompile>{
     options.encoding = "UTF-8"
 }
 
-sqldelight {
-    database("TTWClientDB"){
-        packageName = "org.lee.talk_to_we_client"
-        sourceFolders = listOf("sqldelight")
-    }
-}
 /*
 - AGP 관련 오류 나는 경우
 libs.versions.toml에 가서 agp의 버전을 내 Android Studio에 맞춰준다.

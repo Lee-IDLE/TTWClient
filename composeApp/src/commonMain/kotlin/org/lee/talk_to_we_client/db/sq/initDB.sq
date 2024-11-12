@@ -1,7 +1,0 @@
-CREATE TABLE Messages(
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    category TEXT NOT NULL,
-    data TEXT NOT NULL
-);
-
-
