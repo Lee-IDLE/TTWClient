@@ -10,8 +10,6 @@ plugins {
 
     kotlin("plugin.serialization") version "2.0.21"
     alias(libs.plugins.sqlDelight)
-
-    //alias(libs.plugins.kotlin.android) // 이거 문제되고 있음. 왜지???
 }
 
 kotlin {
@@ -30,6 +28,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            // sqlDelight
             implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
@@ -54,12 +54,12 @@ kotlin {
 
             // sqlDelight
             implementation(libs.sqldelight.coroutines)
-
-            //implementation(libs.androidx.material.icons.extended)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            // sqlDelight
             implementation(libs.sqldelight.jvm)
         }
     }
