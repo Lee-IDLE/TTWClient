@@ -54,6 +54,7 @@ kotlin {
 
             // sqlDelight
             implementation(libs.sqldelight.coroutines)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -61,12 +62,14 @@ kotlin {
 
             // sqlDelight
             implementation(libs.sqldelight.jvm)
+            implementation(libs.sqlite.jdbc)
         }
     }
     sqldelight {
         databases {
             create("TTWClientDB") {
                 packageName = "org.lee.talk_to_we_client"
+                verifyMigrations = false
             }
         }
     }
@@ -97,11 +100,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_22
         targetCompatibility = JavaVersion.VERSION_22
     }
-/*
+    /*
     kotlinOptions {
         jvmTarget = "22"
     }
- */
+    */
 }
 
 dependencies {
@@ -122,6 +125,8 @@ dependencies {
     implementation(libs.core.ktx)
 
     debugImplementation(compose.uiTooling)
+
+
 }
 
 compose.desktop {

@@ -32,6 +32,8 @@ runtimeLivedata = "1.7.5"
 slf4jSimple = "2.0.7"
 sqldelight = "2.0.2"
 coreKtx = "1.13.0"
+sqliteJdbc = "3.45.2.0"
+sqliteJdbcVersion = "3.47.0.0"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -73,6 +75,8 @@ ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negoti
 ktor-server-content-negotiation-jvm = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktorServerContentNegotiationJvm" }
 material-icons-extended-desktop = { module = "org.jetbrains.compose.material:material-icons-extended-desktop", version.ref = "materialIconsExtendedDesktop" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4jSimple" }
+sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqliteJdbc" }
+sqlite-jdbc-v34520700 = { module = "org.xerial:sqlite-jdbc", version.ref = "sqliteJdbcVersion" }
 x-x-x = { module = "ktor-client-core-jvm:2.3.0" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }

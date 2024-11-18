@@ -13,9 +13,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.lee.talk_to_we_client.models.LoginResponse
 
 object webSocket {
     var webSocketSession: WebSocketSession? = null
+    val map = mutableMapOf<String, List<String>>()
     /*
     receive 함수에서 서버로 부터 오는 모든 값을 받고,
     map에 넣어뒀다가 각자 필요한 곳에서 꺼내 가는건 어떨까?
@@ -38,6 +42,7 @@ object webSocket {
                 webSocketSession = client.webSocketSession(
                     method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = ""
                 )
+                receive()
             }catch (e: Error) {
                 println("webSocket connection fail: ${e.message}")
             }
@@ -55,10 +60,26 @@ object webSocket {
             webSocketSession?.incoming?.consumeEach { frame ->
                 when (frame) {
                     is Frame.Text -> {
-                        println("Receive to Server: ${frame.readText()}")
+                        val responseText = frame.readText()
+                        println("로그인 결과값: ${responseText}")
+                        responseProcess(responseText)
                     }
                     else -> { println("EXT...") }
                 }
+            }
+        }
+    }
+
+    fun responseProcess(responseText: String) {
+        val response = Json.decodeFromString<LoginResponse>(responseText)
+
+        val list: List<String>
+        when (response.Category) {
+            "login" -> {
+                val loginResult = response.Data.firstOrNull()?.result
+                val loginMessage = response.Data.firstOrNull()?.message
+                list = listOf(loginResult.toString(), loginMessage.toString())
+                map.put(response.Category, list)
             }
         }
     }

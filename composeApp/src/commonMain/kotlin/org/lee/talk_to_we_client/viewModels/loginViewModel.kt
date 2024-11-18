@@ -1,5 +1,6 @@
 package org.lee.talk_to_we_client.viewModels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +11,9 @@ import java.security.MessageDigest
 
 class loginViewModel : ViewModel() {
     val isLoading = MutableStateFlow(false)
+    val isLogin = mutableStateOf(false)
+    val loginMessage = mutableStateOf("")
+
     fun login(userID: String, userPassword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val sendPassword = userPassword.trim().sha256()

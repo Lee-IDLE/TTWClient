@@ -3,3 +3,9 @@ CREATE TABLE IF NOT EXISTS Accounts (
     UserId TEXT NOT NULL,
     UserPassword TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS Messages (
+    category TEXT NOT NULL,
+    data TEXT,
+    Separation TEXT
+);

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -70,7 +71,13 @@ fun loginView(viewModel: loginViewModel) {
     val focusRequester = remember { FocusRequester() }
 
     val isLoading by viewModel.isLoading.collectAsState() // collectAsStateWithLifecycle()
+    val isLogin by viewModel.isLogin
+    val loginMessage by viewModel.loginMessage
 
+    if(isLogin == false && loginMessage.isNotEmpty()) {
+        NotificationDialog("알림", loginMessage, onDismiss = {})
+        viewModel.loginMessage.value = ""
+    }
     /*
     tab키 기능 구현
     https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/Tab_Navigation/README.md
@@ -78,7 +85,7 @@ fun loginView(viewModel: loginViewModel) {
     if(isLoading == true){
         println("Loading...........")
         loadingScreen()
-    } else if(isLoading == false){
+    } else if(!isLoading){
         println("Loading End...........")
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -243,6 +250,19 @@ fun FocusableBox(
         singleLine = true
     )
 }
+
+@Composable
+fun NotificationDialog(title: String, message: String, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = title) },
+        text = { Text(text = message) },
+        confirmButton = {
+            Button(onClick = onDismiss) { Text("OK") }
+        }
+    )
+}
+
 
 @Composable
 fun loadingScreen() {
