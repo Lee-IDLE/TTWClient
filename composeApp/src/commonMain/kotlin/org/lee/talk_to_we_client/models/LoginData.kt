@@ -10,8 +10,8 @@ data class LoginResponse(
 
 @Serializable
 data class LoginResponseDatas(
-    val result: String,
-    val message: String
+    val Result: String,
+    val Message: String
 )
 
 @Serializable

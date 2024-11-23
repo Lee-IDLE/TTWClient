@@ -55,13 +55,12 @@ object webSocket {
         }
     }
 
-    fun receive(){
+    private fun receive(){
         CoroutineScope(Dispatchers.IO).launch {
             webSocketSession?.incoming?.consumeEach { frame ->
                 when (frame) {
                     is Frame.Text -> {
                         val responseText = frame.readText()
-                        println("로그인 결과값: ${responseText}")
                         responseProcess(responseText)
                     }
                     else -> { println("EXT...") }
@@ -70,14 +69,14 @@ object webSocket {
         }
     }
 
-    fun responseProcess(responseText: String) {
+    private fun responseProcess(responseText: String) {
         val response = Json.decodeFromString<LoginResponse>(responseText)
 
         val list: List<String>
         when (response.Category) {
             "login" -> {
-                val loginResult = response.Data.firstOrNull()?.result
-                val loginMessage = response.Data.firstOrNull()?.message
+                val loginResult = response.Data.firstOrNull()?.Result
+                val loginMessage = response.Data.firstOrNull()?.Message
                 list = listOf(loginResult.toString(), loginMessage.toString())
                 map.put(response.Category, list)
             }

@@ -1,40 +1,21 @@
 package org.lee.talk_to_we_client.views
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -48,6 +29,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,19 +56,20 @@ fun loginView(viewModel: loginViewModel) {
     val isLogin by viewModel.isLogin
     val loginMessage by viewModel.loginMessage
 
+    val showDialog = remember { mutableStateOf(false) }
+
     if(isLogin == false && loginMessage.isNotEmpty()) {
-        NotificationDialog("알림", loginMessage, onDismiss = {})
-        viewModel.loginMessage.value = ""
+        println("알림 창 띄운다!!!")
+        showDialog.value = true
+        NotificationDialog("알림", loginMessage, onDismiss = { viewModel.loginMessage.value = "" })
     }
     /*
     tab키 기능 구현
     https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/Tab_Navigation/README.md
      */
     if(isLoading == true){
-        println("Loading...........")
         loadingScreen()
     } else if(!isLoading){
-        println("Loading End...........")
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -254,11 +237,21 @@ fun FocusableBox(
 @Composable
 fun NotificationDialog(title: String, message: String, onDismiss: () -> Unit) {
     AlertDialog(
+        modifier = Modifier
+            .size(280.dp, 240.dp)
+            .clip(RoundedCornerShape(16.dp)) // 모서리 둥글게
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colors.primary,
+                shape = RoundedCornerShape(16.dp)) // 테두리 모서리 둥글게
+            .zIndex(Float.MAX_VALUE),
         onDismissRequest = onDismiss,
         title = { Text(text = title) },
         text = { Text(text = message) },
         confirmButton = {
-            Button(onClick = onDismiss) { Text("OK") }
+            Button(onClick = onDismiss) {
+                Text("OK")
+            }
         }
     )
 }
