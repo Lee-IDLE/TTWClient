@@ -123,6 +123,11 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.ui.geometry.desktop)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime.android)
+    implementation(libs.androidx.ui.desktop)
+    implementation(libs.androidx.material3.desktop)
 
     debugImplementation(compose.uiTooling)
 
