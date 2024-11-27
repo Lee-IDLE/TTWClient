@@ -23,7 +23,9 @@ kotlin {
     jvm("desktop")
     
     sourceSets {
-        val desktopMain by getting
+        val desktopMain by getting {
+            resources.srcDirs("src/desktopMain/resources")
+        }
         
         androidMain.dependencies {
             implementation(compose.preview)
@@ -149,6 +151,16 @@ compose.desktop {
 tasks.withType<JavaCompile>{
     options.encoding = "UTF-8"
 }
+
+tasks.withType<Copy>().configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+/*
+tasks.named<Copy>("processResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+ */
 
 /*
 - AGP 관련 오류 나는 경우

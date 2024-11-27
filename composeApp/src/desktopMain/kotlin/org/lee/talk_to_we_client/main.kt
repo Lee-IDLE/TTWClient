@@ -19,7 +19,19 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import androidx.compose.foundation.window.WindowDraggableArea
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.sharp.Add
+import androidx.compose.material.icons.sharp.Check
+import androidx.compose.material.icons.sharp.Close
+import androidx.compose.material.icons.sharp.Refresh
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.loadXmlImageVector
+import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.*
+import org.xml.sax.InputSource
+import ttwclient.composeapp.generated.resources.Res
 
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
@@ -67,15 +79,38 @@ private fun WindowScope.AppWindowTitleBar(
     ) {
         Row {
             IconButton(onClick = {onMinimize()}) {
-                Text("_")
+                /*
+                Icon(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    contentDescription = "minimize",
+                    painter = painterResource("drawable/ic_minimize")
+                )
+
+                 */
             }
 
             IconButton(onClick = {onMaximize()}) {
-                Text("□")
+                /*
+                Icon(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    contentDescription = "maximize",
+                    painter = painterResource("drawable/ic_maximize_black_24.xml")
+                )
+                 */
             }
 
             IconButton(onClick = {onClose()}) {
-                Text("X")
+                /*
+                Icon(
+                    modifier = Modifier
+                        .fillMaxHeight(),
+                    contentDescription = "close",
+                    painter = painterResource("drawable/ic_close_black_24.xml")
+                )
+
+                 */
             }
         }
     }
