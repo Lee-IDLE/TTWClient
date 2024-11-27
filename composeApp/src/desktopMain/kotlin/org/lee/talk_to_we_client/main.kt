@@ -1,22 +1,29 @@
 package org.lee.talk_to_we_client
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.gestures.forEachGesture
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import androidx.compose.foundation.window.WindowDraggableArea
 import kotlinx.coroutines.*
+
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import java.awt.event.MouseMotionAdapter
 
 fun main() = application {
     val windowState = rememberWindowState(width = 400.dp, height = 863.dp)
@@ -28,66 +35,48 @@ fun main() = application {
         undecorated = true,
         resizable = false
     ) {
-        CustomTitleBar(
-            windowState = windowState,
-            onMinimize =  { windowState.isMinimized = true },
-            onMaximize =  {
-                windowState.placement = if(windowState.placement == WindowPlacement.Maximized)
-                    WindowPlacement.Floating
-                else
-                    WindowPlacement.Maximized
+        // 최상위 창 관리
+        // https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-desktop-top-level-windows-management.html#dialogs
+        AppWindowTitleBar(
+            onMinimize = { windowState.isMinimized = true },
+            onMaximize = {
+                windowState.placement =
+                    if (windowState.placement == WindowPlacement.Maximized)
+                        WindowPlacement.Floating
+                    else
+                        WindowPlacement.Maximized
             },
-            onClose = ::exitApplication,
+            onClose = ::exitApplication
         )
+        App()
     }
 }
 
 @Composable
-fun CustomTitleBar(
-    windowState: WindowState,
+private fun WindowScope.AppWindowTitleBar(
     onMinimize: () -> Unit,
     onMaximize: () -> Unit,
-    onClose: () -> Unit,
-) {
-    var offset by remember { mutableStateOf(Offset.Zero)}
+    onClose: () -> Unit) = WindowDraggableArea {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(30.dp)
-            .background(Color.LightGray)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        offset = Offset(windowState.position.x.value, windowState.position.y.value)
-                    },
-                    onDrag = { change, dragAmount ->
-                        change.consume()
-                        offset = Offset(
-                            offset.x + dragAmount.x,
-                            offset.y + dragAmount.y
-                        )
-                        CoroutineScope(Dispatchers.Main).launch {
-                            windowState.position = WindowPosition(offset.x.toDp(), offset.y.toDp())
-                        }
-                    }
-                )
-            },
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .background(Color.Transparent),
+        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Row {
-            IconButton(onClick = onMinimize) {
+            IconButton(onClick = {onMinimize()}) {
                 Text("_")
             }
 
-            IconButton(onClick = onMaximize) {
+            IconButton(onClick = {onMaximize()}) {
                 Text("□")
             }
 
-            IconButton(onClick = onClose) {
+            IconButton(onClick = {onClose()}) {
                 Text("X")
             }
         }
     }
-    App()
 }
