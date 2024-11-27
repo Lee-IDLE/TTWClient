@@ -20,7 +20,11 @@ WebSocketSession으로 부터 들어오는 모든 메시지들을 DB의 특정 �
 | -------- | ---- | ---------- |
 |          |      |            |
 
+[Kotlin Multiplatform 기본 기능](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)
+
+
 [참고하기 아\~주 좋은 여러 샘플 코드](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-samples.html?utm_campaign=kmp&utm_medium=docs&utm_source=github)
+
 ---
 
 This is a Kotlin Multiplatform project targeting Android, Desktop.
