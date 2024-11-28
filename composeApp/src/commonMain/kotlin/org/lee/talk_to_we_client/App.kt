@@ -11,8 +11,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.lee.talk_to_we_client.objectClass.AppStatus
 import org.lee.talk_to_we_client.views.loginScreen
 import org.lee.talk_to_we_client.views.loginView
 
@@ -44,5 +46,11 @@ fun App() {
 
 @Composable
 fun BaseView(){
-    loginScreen()
+    val navController = rememberNavController()
+    if(AppStatus.isLogin.value == false) {
+        loginScreen()
+    } else {
+
+    }
+
 }

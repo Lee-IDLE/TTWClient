@@ -57,6 +57,7 @@ kotlin {
             // sqlDelight
             implementation(libs.sqldelight.coroutines)
 
+            implementation(libs.androidx.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -130,6 +131,7 @@ dependencies {
     implementation(libs.androidx.room.runtime.android)
     implementation(libs.androidx.ui.desktop)
     implementation(libs.androidx.material3.desktop)
+    implementation(libs.androidx.navigation.compose)
 
     debugImplementation(compose.uiTooling)
 

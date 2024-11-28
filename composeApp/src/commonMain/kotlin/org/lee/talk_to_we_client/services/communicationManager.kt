@@ -30,31 +30,6 @@ class communicationManager {
         println("try connection")
         webSocket.connect()
         webSocket.send(jsonData)
-        println("try response")
-        getLoginResponse()
         viewModels = null
-    }
-
-    fun getLoginResponse() = runBlocking {
-        val viewModel = viewModels as loginViewModel
-        viewModel.isLoading.value = true
-        withTimeoutOrNull(5000) {
-            while(true) {
-                webSocket.map.remove("login")?.let {it ->
-                    // 0: result, 1: message
-                    if (it.get(0).equals("success")){
-                        viewModel.isLogin.value = true
-                        println("로그인 성공")
-                    }
-                    else {
-                        viewModel.isLogin.value = false
-                        viewModel.loginMessage.value = it.get(1)
-                        println("로그인 실패")
-                    }
-                    return@withTimeoutOrNull
-                }
-            }
-        }
-        viewModel.isLoading.value = false
     }
 }
