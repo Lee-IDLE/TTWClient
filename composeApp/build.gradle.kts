@@ -38,7 +38,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
-            implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
@@ -57,7 +56,9 @@ kotlin {
             // sqlDelight
             implementation(libs.sqldelight.coroutines)
 
-            implementation(libs.androidx.navigation.compose)
+            //implementation(libs.navigation.compose)
+
+            //implementation(libs.androidx.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -123,19 +124,17 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.material3)
+    //implementation(libs.androidx.material3)
+    //implementation(libs.androidx.material3.desktop)
     implementation(libs.ktor.ktor.serialization.kotlinx.json)
     implementation(libs.core.ktx)
-    implementation(libs.androidx.ui.geometry.desktop)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime.android)
-    implementation(libs.androidx.ui.desktop)
-    implementation(libs.androidx.material3.desktop)
-    implementation(libs.androidx.navigation.compose)
+    //implementation(libs.androidx.lifecycle.runtime.ktx)
+    //implementation(libs.androidx.ui.desktop)
+    //implementation(libs.androidx.ui.geometry.desktop)
 
     debugImplementation(compose.uiTooling)
-
-
 }
 
 compose.desktop {

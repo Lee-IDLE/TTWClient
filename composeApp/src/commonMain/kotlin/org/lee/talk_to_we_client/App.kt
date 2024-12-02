@@ -1,25 +1,12 @@
 package org.lee.talk_to_we_client
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import org.jetbrains.compose.resources.painterResource
+//import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.lee.talk_to_we_client.objectClass.AppStatus
 import org.lee.talk_to_we_client.views.loginScreen
 import org.lee.talk_to_we_client.views.loginView
-
-import ttwclient.composeapp.generated.resources.Res
-import ttwclient.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
@@ -46,7 +33,7 @@ fun App() {
 
 @Composable
 fun BaseView(){
-    val navController = rememberNavController()
+    //val navController = rememberNavController()
     if(AppStatus.isLogin.value == false) {
         loginScreen()
     } else {
