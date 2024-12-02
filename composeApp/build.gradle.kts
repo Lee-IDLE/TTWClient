@@ -33,6 +33,8 @@ kotlin {
 
             // sqlDelight
             implementation(libs.sqldelight.android)
+
+            implementation(libs.androidx.navigation.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,10 +57,6 @@ kotlin {
 
             // sqlDelight
             implementation(libs.sqldelight.coroutines)
-
-            //implementation(libs.navigation.compose)
-
-            //implementation(libs.androidx.navigation.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -130,6 +128,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime.android)
+    implementation(libs.androidx.navigation.runtime.ktx)
     //implementation(libs.androidx.lifecycle.runtime.ktx)
     //implementation(libs.androidx.ui.desktop)
     //implementation(libs.androidx.ui.geometry.desktop)
