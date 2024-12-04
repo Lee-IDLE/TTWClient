@@ -1,6 +1,12 @@
 package org.lee.talk_to_we_client
 
-actual interface Navigator {
-    actual fun navigateTo(route: String)
-    actual fun goBack()
+class DesktopNavigator : Navigator{
+    var currentRoute: String = "friendsListView"
+
+    override fun navigateTo(route: String) {
+        currentRoute = route
+    }
+    override fun goBack() {
+
+    }
 }

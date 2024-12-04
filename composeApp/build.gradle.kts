@@ -129,6 +129,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime.android)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.navigation.compose)
+    implementation(libs.firebase.database.ktx)
     //implementation(libs.androidx.lifecycle.runtime.ktx)
     //implementation(libs.androidx.ui.desktop)
     //implementation(libs.androidx.ui.geometry.desktop)

@@ -2,11 +2,13 @@ package org.lee.talk_to_we_client
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-//import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.lee.talk_to_we_client.objectClass.AppStatus
+import org.lee.talk_to_we_client.navigation.Screen
+import org.lee.talk_to_we_client.navigation.SimpleNavController
+import org.lee.talk_to_we_client.views.chatRoomListScreen
+import org.lee.talk_to_we_client.views.friendsListScreen
 import org.lee.talk_to_we_client.views.loginScreen
-import org.lee.talk_to_we_client.views.loginView
 
 @Composable
 @Preview
@@ -33,11 +35,28 @@ fun App() {
 
 @Composable
 fun BaseView(){
-    //val navController = rememberNavController()
+    val navController = remember { SimpleNavController(Screen.loginView) }
+    val currentScreen by navController.currentScreen.collectAsState()
+
+    loginScreen(visible = currentScreen == Screen.loginView, navController = navController)
+    friendsListScreen(visible = currentScreen == Screen.friendsListView, navController = navController)
+    chatRoomListScreen(visible = currentScreen == Screen.chatRoomListView, navController = navController)
+    /*
+    val navigator = createNavigator()
+    NavHost(navigator) {
+
+    }
+
     if(AppStatus.isLogin.value == false) {
         loginScreen()
     } else {
 
     }
-
+    */
 }
+
+@Composable
+expect fun NavHost(
+    navigator: Navigator,
+    content: @Composable () -> Unit
+)

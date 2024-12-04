@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.lee.talk_to_we_client.models.LoginResponse
+import org.lee.talk_to_we_client.services.Platform
 
 object webSocket {
     var webSocketSession: WebSocketSession? = null
@@ -36,11 +37,18 @@ object webSocket {
                     install(WebSockets)
                 }
 
+                val currentPlatform = Platform.getCurrent()
                 // Windows 127.0.0.1:8080
                 // 에뮬레이터 10.0.2.2:8080
+                var host = ""
 
+                if(currentPlatform.isAndroid) {
+                    host = "10.0.2.2"
+                } else if(currentPlatform.isWindows) {
+                    host = "127.0.0.1"
+                }
                 webSocketSession = client.webSocketSession(
-                    method = HttpMethod.Get, host = "127.0.0.1", port = 8080, path = ""
+                    method = HttpMethod.Get, host = host, port = 8080, path = ""
                 )
                 receive()
             }catch (e: Error) {

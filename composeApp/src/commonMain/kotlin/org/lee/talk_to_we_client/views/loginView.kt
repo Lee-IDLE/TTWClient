@@ -37,15 +37,19 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.lee.talk_to_we_client.navigation.Screen
+import org.lee.talk_to_we_client.navigation.SimpleNavController
 import org.lee.talk_to_we_client.viewModels.loginViewModel
 
 @Composable
-fun loginScreen() {
-    val viewModel = loginViewModel()
-    loginView(viewModel)
+fun loginScreen(visible: Boolean, navController: SimpleNavController) {
+    if(visible){
+        val viewModel = loginViewModel()
+        loginView(viewModel, navController)
+    }
 }
 @Composable
-fun loginView(viewModel: loginViewModel) {
+fun loginView(viewModel: loginViewModel, navController: SimpleNavController) {
     var userId by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf<CharArray>(CharArray(0)) }
     var showPassword by remember { mutableStateOf(false) }
@@ -57,7 +61,9 @@ fun loginView(viewModel: loginViewModel) {
     val loginMessage by viewModel.loginMessage
 
     val showDialog = remember { mutableStateOf(false) }
-
+    if(isLogin == true) {
+        navController.navigateTo(Screen.friendsListView)
+    }
     if(isLogin == false && loginMessage.isNotEmpty()) {
         println("알림 창 띄운다!!!")
         showDialog.value = true
@@ -270,5 +276,5 @@ fun loadingScreen() {
 @Composable
 @Preview
 fun testPreview(){
-    loginScreen()
+
 }
